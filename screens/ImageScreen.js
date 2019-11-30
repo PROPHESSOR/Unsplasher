@@ -10,6 +10,7 @@ export default function ImageScreen(props) {
   );
 }
 
+// Disable header for fullscreen view
 ImageScreen.navigationOptions = {
   title: 'Links',
   header: null,
