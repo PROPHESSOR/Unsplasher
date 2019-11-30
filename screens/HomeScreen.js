@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, StyleSheet, View, FlatList, Text, Button } from 'react-native';
+import { Image, ScrollView, StyleSheet, View, FlatList, Text, TouchableHighlight } from 'react-native';
 
 export default function Gallery() {
   const [ images, images_set ] = useState([]);
@@ -28,8 +28,6 @@ export default function Gallery() {
       style={styles.container}
       contentContainerStyle={styles.contentContainer}>
       <View>
-        {/* <Button title="Fetch images" onPress={fetchImages} /> */}
-
         { images.length ? null : <Text style={styles.loadingText}>Loading...</Text> }
 
         <FlatList
@@ -48,7 +46,13 @@ Gallery.navigationOptions = {
 };
 
 function GalleryItem({ item }) {
-  return <Image source={{ uri: item.urls.thumb }} style={styles.galleryItem} />
+  const onClick = () => {
+    console.log(`Clicked on ${item.id}`);
+  }
+
+  return <TouchableHighlight onPress={onClick}>
+    <Image source={{ uri: item.urls.thumb }} style={styles.galleryItem} />
+  </TouchableHighlight>;
 }
 
 const styles = StyleSheet.create({
