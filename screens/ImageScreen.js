@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 
 export default function ImageScreen(props) {
+  const { item } = props.navigation.state.params;
+
   console.log('ImageScreen', props);
   return (
-    <View style={styles.container}><Text>Fullsize image</Text></View>
+    <Image source={{ uri: item.urls.regular}} style={styles.image} />
   );
 }
 
@@ -17,5 +19,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     backgroundColor: '#fff',
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
   },
 });

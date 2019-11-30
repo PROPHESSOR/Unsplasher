@@ -48,7 +48,7 @@ Gallery.navigationOptions = {
 function GalleryItem({ item, navigate }) {
   const onClick = () => {
     console.log(`Clicked on ${item.id}`);
-    navigate('Image');
+    navigate('Image', { item });
   }
 
   return <TouchableHighlight onPress={onClick}>
