@@ -1,12 +1,13 @@
-import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, StyleSheet, View, FlatList, Text, TouchableHighlight } from 'react-native';
+import { ScrollView, StyleSheet, View, FlatList, Text } from 'react-native';
+
+import GalleryItem from '../components/GalleryItem';
 
 export default function Gallery(props) {
   const [ images, images_set ] = useState([]);
 
   const fetchImages = async () => {
-    console.log('fetching...');
+    console.log('Fetching images...');
 
     const request = await fetch('https://api.unsplash.com/photos/?client_id=cf49c08b444ff4cb9e4d126b7e9f7513ba1ee58de7906e4360afc1a33d1bf4c0');
 
@@ -16,7 +17,7 @@ export default function Gallery(props) {
 
     images_set(json);
 
-    console.log('OK!');
+    console.log('[OK!] Fetching images...');
   };
 
   useEffect(() => {
@@ -45,17 +46,6 @@ Gallery.navigationOptions = {
   header: null,
 };
 
-function GalleryItem({ item, navigate }) {
-  const onClick = () => {
-    console.log(`Clicked on ${item.id}`);
-    navigate('Image', { item });
-  }
-
-  return <TouchableHighlight onPress={onClick}>
-    <Image source={{ uri: item.urls.thumb }} style={styles.galleryItem} />
-  </TouchableHighlight>;
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -64,11 +54,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 30,
     alignItems: 'center',
-  },
-  galleryItem: {
-    width: 100,
-    height: 100,
-    margin: 5,
   },
   loadingText: {
     fontSize: 24,
