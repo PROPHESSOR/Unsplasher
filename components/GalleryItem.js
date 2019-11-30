@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet, TouchableHighlight } from 'react-native'
 
 export default function GalleryItem({ item, navigate }) {
   const onClick = () => {
-    console.log(`Clicked on ${item.id}`);
     navigate('Image', { item });
   }
 

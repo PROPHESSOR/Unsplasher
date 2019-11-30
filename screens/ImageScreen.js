@@ -4,7 +4,6 @@ import { StyleSheet, Image } from 'react-native';
 export default function ImageScreen(props) {
   const { item } = props.navigation.state.params;
 
-  console.log('ImageScreen', props);
   return (
     <Image source={{ uri: item.urls.regular}} style={styles.image} />
   );

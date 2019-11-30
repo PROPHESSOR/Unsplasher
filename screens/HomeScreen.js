@@ -17,7 +17,7 @@ export default function Gallery(props) {
 
     images_set(json);
 
-    console.log('[OK!] Fetching images...');
+    console.info('[OK!] Fetching images...');
   };
 
   useEffect(() => {
