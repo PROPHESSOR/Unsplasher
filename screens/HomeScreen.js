@@ -2,7 +2,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, View, FlatList, Text, TouchableHighlight } from 'react-native';
 
-export default function Gallery() {
+export default function Gallery(props) {
   const [ images, images_set ] = useState([]);
 
   const fetchImages = async () => {
@@ -33,7 +33,7 @@ export default function Gallery() {
         <FlatList
           data={images}
           numColumns={3}
-          renderItem={({ item }) => <GalleryItem item={item} />}
+          renderItem={({ item }) => <GalleryItem item={item} navigate={props.navigation.navigate} />}
           keyExtractor={item => item.id} />
       </View>
     </ScrollView>
@@ -45,9 +45,10 @@ Gallery.navigationOptions = {
   header: null,
 };
 
-function GalleryItem({ item }) {
+function GalleryItem({ item, navigate }) {
   const onClick = () => {
     console.log(`Clicked on ${item.id}`);
+    navigate('Image');
   }
 
   return <TouchableHighlight onPress={onClick}>
