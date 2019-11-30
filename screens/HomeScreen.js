@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, StyleSheet, View, FlatList, Button } from 'react-native';
+import { Image, ScrollView, StyleSheet, View, FlatList, Text, Button } from 'react-native';
 
 export default function Gallery() {
   const [ images, images_set ] = useState([]);
@@ -19,14 +19,24 @@ export default function Gallery() {
     console.log('OK!');
   };
 
+  useEffect(() => {
+    fetchImages()
+  }, []);
+
   return <View style={styles.container}>
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}>
       <View>
-        <Button title="Fetch images" onPress={fetchImages} />
+        {/* <Button title="Fetch images" onPress={fetchImages} /> */}
 
-        <FlatList data={images} renderItem={({ item }) => <GalleryItem item={item} />} keyExtractor={item => item.id} />
+        { images.length ? null : <Text style={styles.loadingText}>Loading...</Text> }
+
+        <FlatList
+          data={images}
+          numColumns={3}
+          renderItem={({ item }) => <GalleryItem item={item} />}
+          keyExtractor={item => item.id} />
       </View>
     </ScrollView>
   </View>;
@@ -49,10 +59,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 30,
     alignItems: 'center',
-    marginHorizontal: 50,
   },
   galleryItem: {
     width: 100,
-    height: 100
+    height: 100,
+    margin: 5,
+  },
+  loadingText: {
+    fontSize: 24,
   },
 });
