@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button } from 'react-native';
 import { MonoText } from '../components/StyledText';
 
@@ -37,7 +37,7 @@ export default function HomeScreen() {
             style={styles.welcomeImage}
             source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}}
             />
-          <Button title="Fetch images" onPress={fetchImages} />
+          <Button title="Fetch images" />
           <Text>Images from Unsplash:</Text>
           <TestList />
         </View>
@@ -74,22 +74,28 @@ HomeScreen.navigationOptions = {
 
 let listItems = [];
 
-async function fetchImages() {
-  console.log('fetching...');
-  debugger;
-  const request = await fetch('https://api.unsplash.com/photos/?client_id=cf49c08b444ff4cb9e4d126b7e9f7513ba1ee58de7906e4360afc1a33d1bf4c0');
-
-  console.log("Got responce: ", request);
-  
-  const json = await request.json();
-  console.log("Got JSON: ", json);
-  
-  listItems = json;
-}
-
 function TestList() {
+  const [ images, setImages ] = useState([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      console.log('fetching...');
+
+      const request = await fetch('https://api.unsplash.com/photos/?client_id=cf49c08b444ff4cb9e4d126b7e9f7513ba1ee58de7906e4360afc1a33d1bf4c0');
+
+      console.log("Got responce: ", request);
+      
+      const json = await request.json();
+      console.log("Got JSON: ", json);
+
+      setImages(json);
+    };
+
+    fetchImages();
+  }, []);
+
   return <FlatList 
-    data={listItems}
+    data={images}
     renderItem={({ item }) => <GalleryItem image={ item } />}
     keyExtractor={el => el.id}
     />;
