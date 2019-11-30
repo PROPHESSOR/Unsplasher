@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  FlatList,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
@@ -40,8 +41,10 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
+            Change this text and your app will automatically reload. Really?
           </Text>
+
+          <TestList />
         </View>
 
         <View style={styles.helpContainer}>
@@ -73,27 +76,37 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
+const listItems = ['1', 'werwer', 'rewrwer'];
 
+function TestList() {
+  return <FlatList 
+    data={listItems}
+    renderItem={({ item }) => <GalleryItem title={ item } />}
+    keyExtractor={el => el}
+    />;
+}
+
+function GalleryItem({ title }) { // TODO: URL
+  return <Text>Item with title { title }</Text>;
+}
+
+function DevelopmentModeNotice() {
+  if (__DEV__)
     return (
       <Text style={styles.developmentModeText}>
         Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
+        useful development tools. 
+        <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
+          Learn more
+        </Text>
       </Text>
     );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
+
+  return (
+    <Text style={styles.developmentModeText}>
+      You are not in development mode: your app will run at full speed.
+    </Text>
+  );
 }
 
 function handleLearnMorePress() {
