@@ -12,6 +12,7 @@ export default function ImageScreen(props) {
 
 ImageScreen.navigationOptions = {
   title: 'Links',
+  header: null,
 };
 
 const styles = StyleSheet.create({
