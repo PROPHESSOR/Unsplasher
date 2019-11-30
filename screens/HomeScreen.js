@@ -1,16 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  FlatList,
-} from 'react-native';
-
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
@@ -87,7 +77,9 @@ function TestList() {
 }
 
 function GalleryItem({ title }) { // TODO: URL
-  return <Text>Item with title { title }</Text>;
+  return <View><Image
+  source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}}
+  style={{ width: 50, height: 50 }}/><Text>Item with title { title }</Text></View>;
 }
 
 function DevelopmentModeNotice() {
