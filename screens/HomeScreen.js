@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button } from 'react-native';
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
@@ -25,28 +25,33 @@ export default function HomeScreen() {
 
           <Text style={styles.getStartedText}>Get started by opening</Text>
 
-          <View
+          {/* <View
             style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
           </View>
 
           <Text style={styles.getStartedText}>
             Change this text and your app will automatically reload. Really?
-          </Text>
-
+          </Text> */}
+          <Image
+            style={styles.welcomeImage}
+            source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}}
+            />
+          <Button title="Fetch images" onPress={fetchImages} />
+          <Text>Images from Unsplash:</Text>
           <TestList />
         </View>
 
-        <View style={styles.helpContainer}>
+        {/* <View style={styles.helpContainer}>
           <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
             <Text style={styles.helpLinkText}>
               Help, it didn’t automatically reload!
             </Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </ScrollView> */}
 
-      <View style={styles.tabBarInfoContainer}>
+      {/* <View style={styles.tabBarInfoContainer}>
         <Text style={styles.tabBarInfoText}>
           This is a tab bar. You can edit it in:
         </Text>
@@ -57,7 +62,8 @@ export default function HomeScreen() {
             navigation/MainTabNavigator.js
           </MonoText>
         </View>
-      </View>
+      </View> */}
+      </ScrollView>
     </View>
   );
 }
@@ -66,20 +72,36 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-const listItems = ['1', 'werwer', 'rewrwer'];
+let listItems = [];
+
+async function fetchImages() {
+  console.log('fetching...');
+  debugger;
+  const request = await fetch('https://api.unsplash.com/photos/?client_id=cf49c08b444ff4cb9e4d126b7e9f7513ba1ee58de7906e4360afc1a33d1bf4c0');
+
+  console.log("Got responce: ", request);
+  
+  const json = await request.json();
+  console.log("Got JSON: ", json);
+  
+  listItems = json;
+}
 
 function TestList() {
   return <FlatList 
     data={listItems}
-    renderItem={({ item }) => <GalleryItem title={ item } />}
-    keyExtractor={el => el}
+    renderItem={({ item }) => <GalleryItem image={ item } />}
+    keyExtractor={el => el.id}
     />;
 }
 
-function GalleryItem({ title }) { // TODO: URL
-  return <View><Image
-  source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}}
-  style={{ width: 50, height: 50 }}/><Text>Item with title { title }</Text></View>;
+function GalleryItem({ image }) { // TODO: URL
+  return <View>
+    <Image
+      source={{uri: image.urls.thumb}}
+      style={{ width: 50, height: 50 }}/>
+    <Text>An image by { image.user.username }</Text>
+  </View>;
 }
 
 function DevelopmentModeNotice() {
